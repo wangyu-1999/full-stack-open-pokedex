@@ -16,4 +16,4 @@ jobs:
               run: date
 
             - name: Say the content
-              run: ls-l
+              run: ls -l
