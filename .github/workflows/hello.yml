@@ -11,3 +11,9 @@ jobs:
         steps:
             - name: Say hello
               run: echo "Hello, world!"
+
+            - name: Say the date
+              run: date
+
+            - name: Say the content
+              run: ls-l
