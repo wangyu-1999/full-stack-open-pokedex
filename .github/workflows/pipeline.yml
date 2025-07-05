@@ -49,21 +49,26 @@ jobs:
       if: always() && github.event_name == 'push'
       runs-on: ubuntu-22.04
       steps:
-      - name: Notify on Success
-        if: ${{ success() }}
-        uses: rjstone/discord-webhook-notify@v2
-        with:
-          webhookUrl: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          severity: info
-          title: "Deployment Successful"
-          description: "New version has been deployed."
-
-      - name: Notify on Failure
-        if: ${{ failure() }}
-        uses: rjstone/discord-webhook-notify@v2
-        with:
-          webhookUrl: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          severity: error
-          title: "Build Failed"
-          description: "Build failed. ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}"
+        - name: Test webhookUrl
+          run: |
+            curl -X POST \
+              -H "Content-Type: application/json" \
+              -d '{"content": "This is a test message."}' \
+              ${{ secrets.DISCORD_WEBHOOK }}
+        - name: Notify on Success
+          if: ${{ success() }}
+          uses: rjstone/discord-webhook-notify@v2
+          with:
+            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+            severity: info
+            title: "Deployment Successful"
+            description: "New version has been deployed."
+        - name: Notify on Failure
+          if: ${{ failure() }}
+          uses: rjstone/discord-webhook-notify@v2
+          with:
+            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+            severity: error
+            title: "Build Failed"
+            description: "Build failed. ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}"
 
