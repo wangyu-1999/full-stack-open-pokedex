@@ -50,19 +50,15 @@ jobs:
       if: always() && github.event_name == 'push'
       runs-on: ubuntu-22.04
       steps:
-        - name: Test webhookUrl
-          run: |
-            curl -X POST \
-              -H "Content-Type: application/json" \
-              -d '{"content": "This is a test message."}' \
-              ${{ secrets.DISCORD_WEBHOOK }}
         - name: Notify on Success
           if: ${{ success() }}
           uses: appleboy/discord-action@v1.2.0
           with:
             webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
-            message: "**Deployment Successful**"
             color: "#00ff00"
+            message: |
+              **Deployment Successful**
+              (${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }})
         - name: Notify on Failure
           if: ${{ failure() }}
           uses: appleboy/discord-action@v1.2.0
