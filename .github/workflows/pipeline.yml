@@ -47,7 +47,7 @@ jobs:
 
     discord-notification:
       needs: [build-and-deploy, tag-release]
-      if: always() && github.event_name == 'push'
+      if: always() && github.event_name == 'push' && contains(join(github.event.commits.*.message), '#discord')
       runs-on: ubuntu-22.04
       steps:
         - name: Notify on Success
