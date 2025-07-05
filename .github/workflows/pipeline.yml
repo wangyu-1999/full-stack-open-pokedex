@@ -43,3 +43,27 @@ jobs:
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             DEFAULT_BUMP: patch
+
+    discord-notification:
+      needs: [build-and-deploy, tag-release]
+      if: always() && github.event_name == 'push'
+      runs-on: ubuntu-22.04
+      steps:
+      - name: Notify on Success
+        if: ${{ success() }}
+        uses: rjstone/discord-webhook-notify@v2
+        with:
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          severity: info
+          title: "Deployment Successful"
+          description: "New version has been deployed."
+
+      - name: Notify on Failure
+        if: ${{ failure() }}
+        uses: rjstone/discord-webhook-notify@v2
+        with:
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          severity: error
+          title: "Build Failed"
+          description: "Build failed. ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}"
+
