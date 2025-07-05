@@ -53,7 +53,7 @@ jobs:
         if: ${{ success() }}
         uses: rjstone/discord-webhook-notify@v2
         with:
-          webhook_url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK_URL }}
           severity: info
           title: "Deployment Successful"
           description: "New version has been deployed."
@@ -62,7 +62,7 @@ jobs:
         if: ${{ failure() }}
         uses: rjstone/discord-webhook-notify@v2
         with:
-          webhook_url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK_URL }}
           severity: error
           title: "Build Failed"
           description: "Build failed. ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}"
