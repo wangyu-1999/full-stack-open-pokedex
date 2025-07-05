@@ -57,7 +57,7 @@ jobs:
               ${{ secrets.DISCORD_WEBHOOK }}
         - name: Notify on Success
           if: ${{ success() }}
-          uses: rjstone/discord-webhook-notify@v2
+          uses: rjstone/discord-webhook-notify@v2.2.1
           with:
             webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
             severity: info
@@ -65,7 +65,7 @@ jobs:
             description: "New version has been deployed."
         - name: Notify on Failure
           if: ${{ failure() }}
-          uses: rjstone/discord-webhook-notify@v2
+          uses: rjstone/discord-webhook-notify@v2.2.1
           with:
             webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
             severity: error
