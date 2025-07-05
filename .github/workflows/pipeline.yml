@@ -26,14 +26,14 @@ jobs:
             - name: Run build
               run: npm run build
             - name: Trigger deployment
-              if: ${{ github.event_name == 'push' }}
+              if: github.event_name == 'push' && !contains(join(github.event.commits.*.message), '#skip')
               run: curl https://api.render.com/deploy/${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
             - name: Test
               run: npm run test
     
     tag-release:
       needs: [build-and-deploy]
-      if: ${{ github.event_name == 'push'}}
+      if: github.event_name == 'push' && !contains(join(github.event.commits.*.message), '#skip')
       runs-on: ubuntu-22.04
       steps:
         - uses: actions/checkout@v4
