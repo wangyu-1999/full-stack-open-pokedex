@@ -33,6 +33,7 @@ jobs:
     
     tag-release:
       needs: [build-and-deploy]
+      # skip test
       if: github.event_name == 'push' && !contains(join(github.event.commits.*.message), '#skip')
       runs-on: ubuntu-22.04
       steps:
